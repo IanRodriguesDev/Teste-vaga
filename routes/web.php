@@ -19,6 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/veiculos', function () {
+    return view('veiculos.index');
+}); 
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
