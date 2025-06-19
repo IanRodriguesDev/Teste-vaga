@@ -38,4 +38,14 @@ class User extends Authenticatable
     {
         $this->notify(new MyResetPasswordNotification($token));
     }
+
+    public function veiculos() 
+    {
+        return $this->hasMany(Veiculo::class, 'proprietario_id');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
 }

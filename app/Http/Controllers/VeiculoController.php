@@ -3,83 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Veiculo;
-use Illuminate\Http\Request;
+use App\Http\Requests\VeiculoRequest;
+use App\Events\VeiculoCadastradoOuAtualizado;
+use App\Http\Controllers\redirect;
+use Illuminate\Routing\RedirectController;
+use Illuminate\Support\Facades\Auth;
 
 class VeiculoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    //Visualizar os veiculos
+    public function index() 
     {
-        //
+        $veiculos = Veiculo::withTrashed()->with('proprietario')->get(); //Busca os veiculos, inclusive os deletados
+        return view('veiculos.index', compact('veiculos')); //Retornando a view para a lista de veiculos
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //Criar os veiculos
     public function create()
     {
-        //
+        return view('veiculos.create'); //retorna para a pagina de criação dos veiculos
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    //Armazenando novo veiculo
+    public function store(VeiculoRequest $request)
     {
-        //
+        $dados = $request->validated(); //Retornará somente os que passarem na rules
+        $veiculo = Veiculo::create($dados); //Pega os dados 'limpos' e cria o objeto veiculo com a função create 
+
+        event(new VeiculoCadastradoOuAtualizado($veiculo)); //Disparo do evento
+
+        return redirect()->route('veiculos.index')->with('sucesso', 'veiculo cadastrado com sucesso'); //Redireciona para as view da lista de veiculos
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Veiculo  $veiculo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Veiculo $veiculo)
+    //Tela de edição
+    public function edit()
     {
-        //
+        return view('veiculos.edit', compact('edit'));
+    }  
+
+    //Atualização de dados do veiculo
+    public function update(Veiculo $request, Veiculo $veiculo)
+    {
+        $dados = $request->validated();
+
+        $veiculo->update($dados);
+
+        event(new VeiculoCadastradoOuAtualizado($veiculo));
+
+        return redirect()->route('veiculos.index')->with('sucesso', 'veiculo atualizado com sucesso.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Veiculo  $veiculo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Veiculo $veiculo)
+    //Deletando um veiculo
+    public function destoy(Veiculo $veiculo)
     {
-        //
+        $veiculo->delete();
+        return redirect()->route('veiculos.index')->with('sucesso', 'Veiculo excluido com sucesso');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Veiculo  $veiculo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Veiculo $veiculo)
+    //Visualização do usuario
+    public function meus()
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Veiculo  $veiculo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Veiculo $veiculo)
-    {
-        //
+        $veiculos = Veiculo::where('proprietario_id', Auth::id())->get();
+        return view('veiculos.show', compact('veiculos'));
     }
 }

@@ -19,10 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/veiculos', function () {
-    return view('veiculos.index');
-}); 
-
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -46,15 +42,18 @@ Route::middleware(['auth'])->group(function() { // Exigindo que o usuario esteja
     
     //Acesso de todos os usuarios
     Route::get('veiculos', [VeiculoController::class, 'index'])->name('veiculos.index'); // Rota para exibir veiculo
-    Route::get('veiculos/{id}', [VeiculoController::class, 'show'])->name('veiculos.show'); // Rota para exibir veiculo especifico 
+    
 
     // Acesso apenas para administradores.
 Route::middleware('is_admin')->group(function(){
     Route::get('/veiculos/create', [VeiculoController::class, 'create'])->name('veiculos.create'); // Cria veiculos
-    Route::post('/veiculos', [VeiculoController::class. 'store'])->name('veiculos.store'); // Salva os dados do veiculo
-    Route::get('/veiculos/{id}/edit', [VeiculoController::class, 'edit'])->name('veiculos.edit'); // Mostra o formulario de edição dos dados do veiculo
-    Route::put('veiculos/{id}', [VeiculoController::class, 'update'])->name('veiculos.update'); // Atualiza o veiculo com os dados do formularios
-    Route::delete('veiculos/{id}', [VeiculoController::class, 'destroy'])->name('veiculos.destroy'); // Destroi um veiculo.
+    Route::post('/veiculos', [VeiculoController::class, 'store'])->name('veiculos.store'); // Salva os dados do veiculo
+    Route::get('/veiculos/{veiculo}/edit', [VeiculoController::class, 'edit'])->name('veiculos.edit'); // Mostra o formulario de edição dos dados do veiculo
+    Route::put('veiculos/{veiculo}', [VeiculoController::class, 'update'])->name('veiculos.update'); // Atualiza o veiculo com os dados do formularios
+    Route::delete('veiculos/{veiculo}', [VeiculoController::class, 'destroy'])->name('veiculos.destroy'); // Destroi um veiculo.
 
 });
+ 
+    Route::get('/meus-veiculos', [VeiculoController::class, 'meus'])->name('veiculos.meus'); // Rota para o proprietário ver apenas os seus veículos
+    Route::get('veiculos/{veiculo}', [VeiculoController::class, 'show'])->name('veiculos.show'); // Rota para exibir veiculo especifico    
 });

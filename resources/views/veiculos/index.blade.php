@@ -13,7 +13,7 @@
 
         <a href="{{ route('veiculos.create')}}" class="btn btn-primary mb-3">Novo Veículo</a>
 
-        @if($veiculo->isEmpty()) <!--Verificação se existe algum conteudo-->
+        @if($veiculos->isEmpty()) <!--Verificação se existe algum conteudo-->
             <p>Nenhum veiculo cadastrado ainda.</p>
         @else
 
@@ -32,10 +32,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($veiculos as $veiculos) <!--Foreach para formar e preencher a tabela com os carros -->
+                @foreach ($veiculos as $veiculo) <!--Foreach para formar e preencher a tabela com os carros -->
                 <tr>
                     <td>{{ $veiculo->id  }}</td>
-                    <td>{{ $veiculo->renavams  }}</td>
+                    <td>{{ $veiculo->renavam  }}</td>
                     <td>{{ $veiculo->modelo  }}</td>
                     <td>{{ $veiculo->marca  }}</td>
                     <td>{{ $veiculo->ano  }}</td>
@@ -47,7 +47,7 @@
                         <form action="{{ route('veiculos.destroy', $veiculo->id)}}" method="POST" style="display:inline-block;">
                             @csrf <!--Proteção contra ataques-->
                             @method('DELETE')
-                            <button type="submit" onclick="return corfirm('confirmar a exclusão') class='btn btn-danger btn-sm'">Excluir</button>                            
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Confirmar a exclusão?')">Excluir</button>                           
                         </form>
                     </td>
                 </tr>
@@ -55,5 +55,6 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>
 @endsection

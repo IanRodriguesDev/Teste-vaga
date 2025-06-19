@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class VeiculoRequest extends FormRequest
+{
+    public function authorize()
+    {
+        return auth()->check() && auth()->user()->is_admin; //Verifica se o usuario esta autenticado e se ele é um adimin
+    }
+
+    public function rules() //Define as validaçoes que o codigo deve respeitar
+    {
+        return [
+            'placa' => [
+                'required', //É um campo obrigatorio
+                'regex:/^[A-Z]{3}[0-9]{4}$/', //Regex para validar o formato da placa;
+                'unique:veiculos,placa,' . $this->veiculo //Garante que a placa seja unica de um veiculo/
+            ],
+
+            'renavam'=> [
+                'required',
+                'numeric', //Deve ser numerico
+                'digits_between:9,11', //Numero de digitos deve estar entre 'BETWEEN' 9-11 digitos
+                'unique:veiculos,renavam,'. $this->veiculo         
+            ],
+            
+            'modelo' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'marca' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'ano' => [
+                'required',
+                'digits:4',
+                'integer',
+                'min:1900',
+                'max:' . date('Y')  // Define o ano limite como o atual
+            ],
+
+            'proprietario_id' => [
+                'required',
+                'exists:users,id', //Necessita que o ususario já exita no banco
+            ],
+        ];
+    }
+
+    public function messages() 
+    {
+        return [
+            //Mensagens de erros para a placa
+            'placa.required' => 'A placa deve ser informada.',
+            'placa.regex' => 'O formato da placa deve seguir o seguinte padrão ABC1234.',
+            'placa.unique' => 'Esta placa já existe',
+
+            //Mensagens de erros para o renavam
+            'renavam.required' => 'O renavam deve ser informado.',
+            'renavam.numeric' => 'O renavam deve conter apenas números.',
+            'renavam.digits_between' => 'O renavam deve ter entre 9 e 11 dígitos.',
+            'renavam.unique' => 'Este renavam já está cadastrado.',
+
+            //Mensagens de erros para o modelo
+            'modelo.required' => 'O modelo deve ser informado',
+            'modelo.string' => 'Somente textos para o modelo',
+            'modelo.max' => 'Máximo de 100 caracteres para o modelo',
+
+            //Mensagens de erros para a marca
+            'marca.required' => 'A marca deve ser informada',
+            'marca.string' => 'Somente textos para a marca',
+            'marca.max' => 'Máximo de 100 caracteres para a marca',
+
+            //Mensagens de erros para o ano
+            'ano.required' => 'O ano deve ser informado',
+            'ano.digits' => 'O ano deve ter somente 4 digitos',
+            'ano.min' => 'O ano deve ser no mínimo a partir de 1900',
+            'ano.max' => 'O ano não pode ser maior que o ano atual.',
+
+            //Mensagens de erros para o proprietario
+            'proprietario_id.required' => 'O proprietário deve ser informado',
+        ];
+    }
+}
