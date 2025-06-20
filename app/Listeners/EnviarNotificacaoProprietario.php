@@ -29,6 +29,6 @@ class EnviarNotificacaoProprietario
     public function handle(VeiculoCadastradoOuAtualizado $event)
     {
         $proprietario = $event->veiculo->proprietario;
-        Notification::route('mail', $proprietario->email) ->notify(new VeiculoNotificacao($event->veiculo));
+        Notification::route('mail', $proprietario->email)->notify(new \App\Notifications\VeiculoNotificacao($event->veiculo, $proprietario->name));
     }
 }

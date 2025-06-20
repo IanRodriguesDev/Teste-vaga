@@ -13,10 +13,12 @@ class VeiculoNotificacao extends Notification
     use Queueable;
 
     public $veiculo;
+    public $proprietarioNome;
 
-    public function __construct(Veiculo $veiculo)
+    public function __construct(Veiculo $veiculo, $proprietarioNome)
     {
         $this->veiculo = $veiculo;
+        $this->proprietarioNome = $proprietarioNome;
     }
 
     /**
@@ -39,12 +41,12 @@ class VeiculoNotificacao extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Seu veiculo foi cadastrado ou atualizado')
-                    ->greeting('Olá, ' . $notifiable->name)
-                    ->line('Um veículo de sua propriedade foi registrado ou atualizado:')
-                    ->line('Modelo: ' . $this->veiculo->modelo)
-                    ->line('Placa: ' . $this->veiculo->placa)
-                    ->action('Ver veículo', url(route('veiculos.show', $this->veiculo->id)));
+            ->subject('Seu veículo foi cadastrado ou atualizado')
+            ->greeting('Olá, ' . $this->proprietarioNome)
+            ->line('Um veículo de sua propriedade foi registrado ou atualizado:')
+            ->line('Modelo: ' . $this->veiculo->modelo)
+            ->line('Placa: ' . $this->veiculo->placa)
+            ->action('Ver veículo', route('veiculos.show', $this->veiculo->id));
     }
 
     /**
