@@ -61,6 +61,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         
         //Criando o middleware 'is_admin'
-        'is_admin' => \App\Http\Middleware\PermissionAdmin::class
+        'is_admin' => \App\Http\Middleware\PermissionAdmin::class, //verifica se é adimin
+        'is_user' => \App\Http\Middleware\PermissionCustomer::class, // e verifica se é usuario
     ];
 }

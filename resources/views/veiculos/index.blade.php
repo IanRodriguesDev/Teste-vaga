@@ -1,5 +1,6 @@
 @extends('layouts.app') <!--Layout padão que já possui o head-->
 
+@section('title', 'Index') <!-- Define o title da página -->
 @section('content') <!--Alimentando o yield presente no layout 'layouts.app'-->
     <!--
         Ultilizando algumas classes herdadas do bootstrap, incluindo algumas estilizações para

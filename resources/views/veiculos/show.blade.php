@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Show')
 @section('content')
 <div class="container">
     <h1>Detalhes do Veículo</h1>
@@ -9,7 +10,6 @@
     <p><strong>Marca:</strong> {{ $veiculo->marca }}</p>
     <p><strong>Ano:</strong> {{ $veiculo->ano }}</p>
     <p><strong>Proprietário:</strong> {{ $veiculo->proprietario->name }}</p>
-
-    <a href="{{ route('veiculos.index') }}" class="btn btn-secondary">Voltar</a>
+    <a href="{{ Auth::user()->role == 2 ? route('veiculos.index') : route('veiculos.meus') }}" class="btn btn-info btn-sm">Voltar</a>
 </div>
 @endsection

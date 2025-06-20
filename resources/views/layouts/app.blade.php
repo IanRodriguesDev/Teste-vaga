@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Federal ST') }}</title>
+    <title>@yield('title', 'Minha Aplicação')</title> <!--Deixando o title dinamico-->
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

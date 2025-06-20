@@ -34,12 +34,14 @@ class VeiculoRequest extends FormRequest
                 'required',
                 'string',
                 'max:100',
+                'regex:/[a-zA-Z]/'
             ],
 
             'marca' => [
                 'required',
                 'string',
                 'max:100',
+                'regex:/[a-zA-Z]/'
             ],
 
             'ano' => [
@@ -75,11 +77,13 @@ class VeiculoRequest extends FormRequest
             'modelo.required' => 'O modelo deve ser informado',
             'modelo.string' => 'Somente textos para o modelo',
             'modelo.max' => 'Máximo de 100 caracteres para o modelo',
+            'modelo.regex' => 'Somente letras são aceitas para o nome do modelo',
 
             //Mensagens de erros para a marca
             'marca.required' => 'A marca deve ser informada',
             'marca.string' => 'Somente textos para a marca',
             'marca.max' => 'Máximo de 100 caracteres para a marca',
+            'marca.regex' => 'Somente letras são aceitas para o nome da marca',
 
             //Mensagens de erros para o ano
             'ano.required' => 'O ano deve ser informado',

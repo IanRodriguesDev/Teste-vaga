@@ -67,4 +67,10 @@ class VeiculoController extends Controller
         $veiculos = Veiculo::where('proprietario_id', Auth::id())->get();
         return view('veiculos.meus', compact('veiculos'));
     }
+
+    //Mostrando o veivulo
+    public function show(Veiculo $veiculo)
+    {
+        return view('veiculos.show', compact('veiculo'));
+    }
 }
