@@ -37,9 +37,9 @@ class VeiculoController extends Controller
     }
 
     //Tela de edição
-    public function edit()
+    public function edit(Veiculo $veiculo)
     {
-        return view('veiculos.edit', compact('edit'));
+        return view('veiculos.edit', compact('veiculo'));
     }  
 
     //Atualização de dados do veiculo
