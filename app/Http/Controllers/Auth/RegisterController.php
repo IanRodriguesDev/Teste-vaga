@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/meus-veiculos';
 
     /**
      * Create a new controller instance.
@@ -52,8 +52,8 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'phone'    => 'required|string|min:13|max:15',
-            'cpf'      => 'required|string|max:11|cpf'
+            'phone'    => 'required|string|min:11|max:15',
+            'cpf'      => 'required|string|size:11|unique:users'
         ]);
     }
 
@@ -70,7 +70,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'phone'    => $data['phone'],
-            'cpf'      => $data['cpf']
+            'cpf'      => $data['cpf'],
+            'role' => 1 //Adicionando a
         ]);
     }
 }
