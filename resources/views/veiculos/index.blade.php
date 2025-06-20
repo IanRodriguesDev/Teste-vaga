@@ -28,7 +28,6 @@
                     <th>Placa</th>
                     <th>Proprietário</th>
                     <th>Ações</th>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -40,11 +39,11 @@
                     <td>{{ $veiculo->marca  }}</td>
                     <td>{{ $veiculo->ano  }}</td>
                     <td>{{ $veiculo->placa  }}</td>
-                    <td>{{ $veiculo->proprietario->nome  }}</td>
+                    <td>{{  $veiculo->proprietario->name  }}</td>
                     <td>
                         <a href="{{ route('veiculos.show', $veiculo->id) }}" class="btn btn-info btn-sm">ver</a>
                         <a href="{{ route('veiculos.edit', $veiculo->id)  }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('veiculos.destroy', $veiculo->id)}}" method="POST" style="display:inline-block;">
+                        <form action="{{  route('veiculos.destroy', $veiculo->id)  }}" method="POST" style="display:inline-block;">
                             @csrf <!--Proteção contra ataques-->
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Confirmar a exclusão?')">Excluir</button>                           

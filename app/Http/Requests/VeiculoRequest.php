@@ -3,28 +3,31 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class VeiculoRequest extends FormRequest
 {
     public function authorize()
     {
-        return auth()->check() && auth()->user()->is_admin; //Verifica se o usuario esta autenticado e se ele é um adimin
+        return auth()->check() && auth()->user()->role == 2; //Verifica se o usuario esta autenticado e se ele é um adimin
     }
 
     public function rules() //Define as validaçoes que o codigo deve respeitar
     {
+        $veiculoId = $this->route('veiculo') ? $this->route('veiculo')->id : null;
+
         return [
             'placa' => [
                 'required', //É um campo obrigatorio
                 'regex:/^[A-Z]{3}[0-9]{4}$/', //Regex para validar o formato da placa;
-                'unique:veiculos,placa,' . $this->veiculo //Garante que a placa seja unica de um veiculo/
+                Rule::unique('veiculos', 'placa')->ignore($veiculoId),
             ],
 
             'renavam'=> [
                 'required',
                 'numeric', //Deve ser numerico
                 'digits_between:9,11', //Numero de digitos deve estar entre 'BETWEEN' 9-11 digitos
-                'unique:veiculos,renavam,'. $this->veiculo         
+                Rule::unique('veiculos', 'renavam')->ignore($veiculoId),       
             ],
             
             'modelo' => [

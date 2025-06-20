@@ -9,9 +9,9 @@ class Veiculo extends Model
 {
     use SoftDeletes;
 
-    protected $filelabe = [
+    protected $fillable = [
         'placa',
-        'renevam',
+        'renavam',
         'modelo',
         'marca',
         'ano',

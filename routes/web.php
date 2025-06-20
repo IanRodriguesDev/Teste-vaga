@@ -41,7 +41,7 @@ Route::group(['prefix'=>'admin', 'as'=>'admin.'], function () {
 Route::middleware(['auth'])->group(function() { // Exigindo que o usuario esteja logado.
     
     //Acesso de todos os usuarios
-    Route::get('veiculos', [VeiculoController::class, 'index'])->name('veiculos.index'); // Rota para exibir veiculo
+    Route::get('veiculos', [VeiculoController::class, 'index'])->name('veiculos.index'); // Rota para exibir veiculos
     
 
     // Acesso apenas para administradores.
@@ -55,5 +55,5 @@ Route::middleware('is_admin')->group(function(){
 });
  
     Route::get('/meus-veiculos', [VeiculoController::class, 'meus'])->name('veiculos.meus'); // Rota para o proprietário ver apenas os seus veículos
-    Route::get('veiculos/{veiculo}', [VeiculoController::class, 'show'])->name('veiculos.show'); // Rota para exibir veiculo especifico    
+    Route::get('veiculos/{veiculo}', [VeiculoController::class, 'show'])->name('veiculos.show'); 
 });

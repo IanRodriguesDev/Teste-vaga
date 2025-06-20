@@ -14,7 +14,7 @@ class VeiculoController extends Controller
     //Visualizar os veiculos
     public function index() 
     {
-        $veiculos = Veiculo::withTrashed()->with('proprietario')->get(); //Busca os veiculos, inclusive os deletados
+        $veiculos = Veiculo::all(); //Busca os veiculos, inclusive os deletados
         return view('veiculos.index', compact('veiculos')); //Retornando a view para a lista de veiculos
     }
 
@@ -27,6 +27,7 @@ class VeiculoController extends Controller
     //Armazenando novo veiculo
     public function store(VeiculoRequest $request)
     {
+
         $dados = $request->validated(); //Retornará somente os que passarem na rules
         $veiculo = Veiculo::create($dados); //Pega os dados 'limpos' e cria o objeto veiculo com a função create 
 
@@ -42,7 +43,7 @@ class VeiculoController extends Controller
     }  
 
     //Atualização de dados do veiculo
-    public function update(Veiculo $request, Veiculo $veiculo)
+    public function update(VeiculoRequest $request, Veiculo $veiculo)
     {
         $dados = $request->validated();
 
@@ -54,16 +55,16 @@ class VeiculoController extends Controller
     }
 
     //Deletando um veiculo
-    public function destoy(Veiculo $veiculo)
+    public function destroy(Veiculo $veiculo)
     {
         $veiculo->delete();
-        return redirect()->route('veiculos.index')->with('sucesso', 'Veiculo excluido com sucesso');
+        return redirect()->route('veiculos.index');
     }
 
     //Visualização do usuario
     public function meus()
     {
         $veiculos = Veiculo::where('proprietario_id', Auth::id())->get();
-        return view('veiculos.show', compact('veiculos'));
+        return view('veiculos.meus', compact('veiculos'));
     }
 }

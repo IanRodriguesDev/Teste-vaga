@@ -46,7 +46,7 @@ class LoginController extends Controller
      */
     public function redirectTo()
     {
-        return Auth::user()->role == User::ROLE_ADMIN ? '/admin/home' : 'meus-veiculos'; //Alterando para que o usuario já veja seus veivulos;
+        return Auth::user()->role == User::ROLE_ADMIN ? '/veiculos' : '/meus-veiculos';
     }
 
     public function logout(Request $request)
